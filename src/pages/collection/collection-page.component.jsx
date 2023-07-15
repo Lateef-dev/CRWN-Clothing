@@ -5,18 +5,19 @@ import CollectionItem from '../../components/collection-items/collection-items.c
 import { selectCollection } from '../../redux/shop/shop.selectors.js';
 
 import './collection-page.styles.scss';
+import { CollectionPageStyles, TitleText, ItemsContainer, CollectionItemContainer } from './collection-page.styles.jsx'
 
 const CollectionPage = ({ collection }) => {
     const { title, items } = collection
     return (
-        <div className='collection-page'>
-            <h2 className='title'>{title}</h2>
-            <div className='items'>
+        <CollectionPageStyles>
+            <TitleText>{title}</TitleText>
+            <ItemsContainer >
                 {
                     items.map(item => <CollectionItem key={item.id} item={item} />)
                 }
-            </div>
-        </div>
+            </ItemsContainer >
+        </CollectionPageStyles >
     );
 }
 

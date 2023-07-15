@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter, useHistory } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
 import { auth } from '../../firebase/firebase.utils';
@@ -9,55 +9,55 @@ import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { selectCartHidden } from '../../redux/cart/cart.selector';
 import { selectCurrentUser } from '../../redux/user/user.selector'
 
-
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
-import './header.styles.scss';
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink } from './header.styles';
 
 const Header = ({ currentUser, hidden }) => {
     const history = useHistory();
     return (
-        <div className="header">
-            <Link className='logo-container' to='/' onClick={() => {
+        <HeaderContainer>
+            <LogoContainer to='/' onClick={() => {
                 console.log(history, "homepage History")
                 history.push('/')
             }
             }>
                 <Logo className='logo' />
-            </Link>
-            <div className='options'>
-                <Link className='option' onClick={() => {
+            </LogoContainer>
+
+            <OptionsContainer>
+                <OptionLink onClick={() => {
                     console.log(history, "shopHistory")
 
                     history.push('/shop')
                 }
                 } to='/shop'>
                     SHOP
-                </Link>
-                <Link className='option' to='/contact' onClick={() => {
+                </OptionLink>
+                <OptionLink to='/contact' onClick={() => {
                     console.log(history, "contactHistory")
                     history.push('/shop')
                 }}>
                     CONTACT
-                </Link >
+                </OptionLink >
                 {
                     currentUser ?
-                        <div className='option' onClick={() => auth.signOut()}> SIGN OUT</div>
+                        <OptionLink as='div' onClick={() => auth.signOut()}> SIGN OUT</OptionLink>
                         :
-                        <Link className='option' to='/signin' onClick={() => {
+                        <OptionLink to='/signin' onClick={() => {
                             console.log(history, "signinHistory")
                             history.push('/signin')
                         }}> SIGN IN
-                        </Link>
+                        </OptionLink>
                 }
                 <CartIcon />
-            </div>
+            </OptionsContainer>
 
             {
                 hidden ? null :
                     <CartDropdown />
             }
-        </div >
+        </HeaderContainer >
 
     );
 }

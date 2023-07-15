@@ -7,13 +7,12 @@ import Header from './components/header/header.component';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import CheckoutPage from './pages/checkout/checkout.component';
+import CheckoutPage from './pages/checkout/checkout.component'; 
 
-
-import {auth, createUserProfileDocument} from './firebase/firebase.utils';
+import {auth, createUserProfileDocument, addCollectionAndDocuments} from './firebase/firebase.utils';
 import './App.css';
 import {setCurrentUser} from './redux/user/user.actions';
-import {selectCurrentUser} from './redux/user/user.selector'
+import {selectCurrentUser} from './redux/user/user.selector';
 
 
 class App extends React.Component {
@@ -29,7 +28,7 @@ class App extends React.Component {
 
   componentDidMount(){
 
-const {setCurrentUser} = this.props;
+    const {setCurrentUser, collectionsArray} = this.props;
 
    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
      if(userAuth) {
@@ -50,6 +49,7 @@ const {setCurrentUser} = this.props;
 }
 
      setCurrentUser(userAuth);
+     addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})));
   });
 }
 
@@ -61,22 +61,20 @@ const {setCurrentUser} = this.props;
   return (
     <div>
       <Header />
-      {/* <BrowserRouter>  */}
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
           <Route exact path='/checkout' component={CheckoutPage} />
           <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUpPage />)}  />
         </Switch>
-      {/* </BrowserRouter> */}
     </div>
   );
   }
   }
 
   const mapStateToProps = createStructuredSelector ({
-  currentUser: selectCurrentUser
-  })
+  currentUser: selectCurrentUser, 
+   })
 
   const mapDispatchToProps = dispatch => ({
  setCurrentUser: user => dispatch( setCurrentUser(user) )
