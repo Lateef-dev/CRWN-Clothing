@@ -1,4 +1,5 @@
 import firebase from 'firebase/compat/app';
+// import {initializeApp} from "firebase/app"
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
@@ -16,8 +17,9 @@ const config = {
       if(!userAuth) return;
 
       const userRef = firestore.doc(`users/${userAuth.uid}`);
-    
       const snapShot = await userRef.get();
+
+      console.log(snapShot);
 
       if(!snapShot.exists) {  
         const {displayName, email} = userAuth;
@@ -34,22 +36,22 @@ const config = {
             console.log('error creating user', error.message);
         }
       }
+      console.log(userRef);
 
       return userRef;
    };
 
-   export const addCollectionAndDocuments = async ( collectionKey, objectsToAdd) => {
+   export const addCollectionAndDocuments =  async ( collectionKey, objectsToAdd) => {
     const collectionRef = firestore.collection(collectionKey);
-    console.log(collectionRef);
 
     const batch = firestore.batch();
     objectsToAdd.forEach(obj => {
       const newDocRef = collectionRef.doc();
-      batch.set(newDocRef, obj)
-      console.log(newDocRef);
-    });
+       batch.set(newDocRef, obj)
 
-    return await batch.commit()
+    });
+    return await batch.commit(); 
+
    };
   
 firebase.initializeApp(config);
@@ -81,4 +83,4 @@ provider.setCustomParameters({ prompt: 'select_account'});
 
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
-export default firebase;
+export default firebase ;

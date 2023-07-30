@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { withRouter } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom'
 
 import CustomButton from '../custom-button/custom-button.component';
 
@@ -26,16 +25,9 @@ const CartDropdown = ({ cartItems, dispatch, history }) => {
         }
       </div>
       <CustomButton onClick={() => {
-        console.log(history, "navigate in cart dropdown");
         history.push('/checkout');
         dispatch(toggleCartHidden());
       }}>GO TO CHECKOUT</CustomButton>
-
-      {/* <Link to='/checkout' className=' custom-button' onClick={() => {
-      props.history.push('/checkout');
-      dispatch(toggleCartHidden());
-    }
-    }> GO TO CHECKOUT</Link> */}
     </div >
   )
 };

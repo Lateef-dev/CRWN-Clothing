@@ -13,7 +13,7 @@ import {auth, createUserProfileDocument, addCollectionAndDocuments} from './fire
 import './App.css';
 import {setCurrentUser} from './redux/user/user.actions';
 import {selectCurrentUser} from './redux/user/user.selector';
-
+import {selectCollectionsForPreview} from './redux/shop/shop.selectors';
 
 class App extends React.Component {
   // constructor() {
@@ -74,6 +74,7 @@ class App extends React.Component {
 
   const mapStateToProps = createStructuredSelector ({
   currentUser: selectCurrentUser, 
+  collectionsArray: selectCollectionsForPreview
    })
 
   const mapDispatchToProps = dispatch => ({
